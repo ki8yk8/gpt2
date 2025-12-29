@@ -1,18 +1,31 @@
-from transformers import set_seed, AutoModelForCausalLM, AutoTokenizer
-from torch.nn.functional import softmax
+from dash import Dash, html, dcc, callback, Output, Input
+import plotly.express as px
+import numpy as np
 
-# creating the seed
-set_seed(0)
+# initializing dash
+app = Dash()
 
-model_name = "openai-community/gpt2"
+# creating app layout
+app.layout = [
+	html.H1(children="Visualizing LLMs", style={"textAlign": "center"}),
+	dcc.Dropdown(options=np.linspace(0, 1, 6), value=1, id="dropdown-selection"),
+	dcc.Graph(id="graph-content")
+]
 
-tokenizer = AutoTokenizer.from_pretrained(model_name)
-model = AutoModelForCausalLM.from_pretrained(model_name)
+@callback(
+	Output("graph-content", "figure"),
+	Input("dropdown-selection", "value"),
+)
+def update_graph(value):
+	data = np.array([20.0, 8.0, 11.0, 2.0, 18.0])/(value+0.0001)
+	exponents = np.exp(data)
 
-inputs = tokenizer("The capital of France is", return_tensors="pt")
-outputs = model(**inputs)
+	probabs = exponents/exponents.sum()
 
-last_token = outputs.logits
-predictions = softmax(last_token, dim=-1)
+	return px.bar({
+		"items": np.arange(len(data)),
+		"probabilities": probabs,
+	}, x="items", y="probabilities")
 
-predicted_tokens = tokenizer.decode(predictions.argmax(dim=-1)[0])
+if __name__ == "__main__":
+	app.run(debug=True)
