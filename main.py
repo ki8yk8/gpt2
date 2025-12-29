@@ -7,7 +7,9 @@ app = Dash()
 
 # creating app layout
 app.layout = [
-	html.H1(children="Visualizing LLMs", style={"textAlign": "center"}),
+	html.H1(children="Visualizing LLMs this is a long text for the try"),
+	html.H2(children="This the H2 tag"),
+	html.P(children="This is a paragraph that is immediately followed by the H1. THis is an example of me trying to create the best style for my system."),
 	dcc.Graph(id="graph-content"),
 	dcc.Slider(
 		min=0.1, 
