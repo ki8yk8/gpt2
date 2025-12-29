@@ -8,6 +8,7 @@ app = Dash()
 # creating app layout
 app.layout = [
 	html.H1(children="Visualizing LLMs", style={"textAlign": "center"}),
+	dcc.Graph(id="graph-content"),
 	dcc.Slider(
 		min=0.1, 
 		max=2, 
@@ -25,7 +26,6 @@ app.layout = [
 		value=1, 
 		id="temperature-slider"
 	),
-	dcc.Graph(id="graph-content")
 ]
 
 @callback(
@@ -38,10 +38,29 @@ def update_graph(value):
 
 	probabs = exponents/exponents.sum()
 
-	return px.bar({
-		"items": np.arange(len(data)),
-		"probabilities": probabs,
-	}, x="items", y="probabilities")
+	fig = px.bar(
+		{
+			"items": np.arange(len(data)),
+			"probabilities": probabs,
+		}, 
+		x="items", 
+		y="probabilities"
+	)
+
+	fig.update_yaxes(
+		range=[0, 1.2],
+		title="Probability",
+	)
+
+	fig.update_xaxes(title="Items")
+
+	fig.update_layout(
+		title=f"Softmax with temperature {value:.1f}",
+		title_x=0.5,
+		bargap=0.25,
+	)
+
+	return fig
 
 if __name__ == "__main__":
 	app.run(debug=True)
