@@ -8,17 +8,24 @@
 
 :root {
 	font-size: 20px;
+
+	--color-primary: #20bf55;
+	--color-neutral: #011627;
+	--color-bg: #fdfffc;
 }
 
 body {
 	padding: 50px 250px;
 	font-family: "Poppins", sans-serif;
 	font-size: 1rem;
+	color: var(--color-neutral);
+	background-color: var(--color-bg);
 }
 
 h1, h2, h3, h4, h5, h6 {
 	text-align: left;
 	line-height: 1.2;
+	color: var(--color-primary);
 }
 
 h1 {
@@ -48,4 +55,8 @@ h4, h5, h6 {
 p {
 	font-size: 1rem;
 	line-height: 1.5;
+}
+
+.js-plotly-plot .plotly.plot-container {
+	margin: 1rem 0;
 }
