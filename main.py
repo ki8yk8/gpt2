@@ -6,28 +6,31 @@ import numpy as np
 app = Dash()
 
 # creating app layout
-app.layout = [
-	html.H1(children="Visualizing LLMs this is a long text for the try"),
-	html.P(children="This is a paragraph that is immediately followed by the H1. THis is an example of me trying to create the best style for my system."),
-	dcc.Graph(id="graph-content"),
-	dcc.Slider(
-		min=0.1, 
-		max=2, 
-		step=0.1, 
-		marks={
-			0.1: "0",
-			0.5: "0.5",
-			1: "1",
-			2: "2"
-		}, 
-		tooltip = {
-			"placement": "bottom",
-			"always_visible": True,
-		},
-		value=1, 
-		id="temperature-slider"
-	),
-]
+app.layout = html.Div(
+	className="dash-container",
+	children= [
+		html.H1(children="Visualizing LLMs this is a long text for the try"),
+		html.P(children="This is a paragraph that is immediately followed by the H1. THis is an example of me trying to create the best style for my system."),
+		dcc.Graph(id="graph-content"),
+		dcc.Slider(
+			min=0.1, 
+			max=2, 
+			step=0.1, 
+			marks={
+				0.1: "0",
+				0.5: "0.5",
+				1: "1",
+				2: "2"
+			}, 
+			tooltip = {
+				"placement": "bottom",
+				"always_visible": True,
+			},
+			value=1, 
+			id="temperature-slider"
+		),
+	]
+)
 
 @callback(
 	Output("graph-content", "figure"),
