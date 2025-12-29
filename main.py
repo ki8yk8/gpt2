@@ -8,13 +8,29 @@ app = Dash()
 # creating app layout
 app.layout = [
 	html.H1(children="Visualizing LLMs", style={"textAlign": "center"}),
-	dcc.Dropdown(options=np.linspace(0, 1, 6), value=1, id="dropdown-selection"),
+	dcc.Slider(
+		min=0.1, 
+		max=2, 
+		step=0.1, 
+		marks={
+			0.1: "0",
+			0.5: "0.5",
+			1: "1",
+			2: "2"
+		}, 
+		tooltip = {
+			"placement": "bottom",
+			"always_visible": True,
+		},
+		value=1, 
+		id="temperature-slider"
+	),
 	dcc.Graph(id="graph-content")
 ]
 
 @callback(
 	Output("graph-content", "figure"),
-	Input("dropdown-selection", "value"),
+	Input("temperature-slider", "value"),
 )
 def update_graph(value):
 	data = np.array([20.0, 8.0, 11.0, 2.0, 18.0])/(value+0.0001)
