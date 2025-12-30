@@ -12,12 +12,20 @@ def markdown_to_dash(markdown):
 
 	# stores the dash elements
 	dash_list = []
+	temp_bullet_list = []
 	tags = get_register_tags()
 	for e in elements:
 		# see if any tag is matched or not
-		for tag in tags.values():
+		for name, tag in tags.items():
 			if tag.is_match(e):
-				dash_list.append(tag.get_element(e))
+				if name == "bullet_points":
+					temp_bullet_list.append(tag.get_element(e))
+				else:
+					if not len(temp_bullet_list) == 0:
+						dash_list.append(html.Ul(children=[*temp_bullet_list]))
+						temp_bullet_list.clear()
+
+					dash_list.append(tag.get_element(e))
 				break
 		else:
 			# if none of tag matches than it is simply a paragraph
