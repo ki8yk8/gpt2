@@ -1,49 +1,6 @@
 import re
 from dash import html
 
-_ELEMENTS = {
-	"h1": {
-		"regex": r"^#+ .+",   # starts with # and then have space followed by at least one character
-		"create": html.H1,
-	},
-	"h2": {
-		"regex": r"^## .+",
-		"element": html.H2,
-	},
-	"h3": {
-		"regex": r"^### .+",
-		"element": html.H3,
-	},
-	"h4": {
-		"regex": r"^#### .+",
-		"element": html.H4,
-	},
-	"h5": {
-		"regex": r"^##### .+",
-		"element": html.H5,
-	},
-	"h6": {
-		"regex": r"^###### .+",
-		"element": html.H6,
-	},
-	"hyperlink": {
-		"regex": r"\[(.*?)\]\((.*?)\)",
-		"element": html.A,
-	},
-	"bullets": {
-		"regex": r"/- *+/",
-		"element": html.Li,
-	},
-	"others": {
-		"element": html.P,
-	}
-}
-
-def detect_and_convert_to_dash(element):
-	for tag in _ELEMENTS.values():
-		if re.match(tag["regex"], element):
-			return tag["element"](children=element)
-
 def markdown_to_dash(markdown):
 	# each element is one of H1, H2, or Paragraph
 	elements = markdown.split("\n")
@@ -58,15 +15,6 @@ def markdown_to_dash(markdown):
 		pass
 
 if __name__ == "__main__":
-	print(re.fullmatch(_ELEMENTS["h1"]["regex"], "# hello"))
-	print(re.match(_ELEMENTS["h2"]["regex"], "## hello"))
-	print(re.match(_ELEMENTS["h2"]["regex"], "##hello"))
-
-	# extracting the children of the components
-	match = re.match(_ELEMENTS["hyperlink"]["regex"], "[Link Text](https://www.google.com)")
-	if match:
-		print(match.groups())
-
 	example_markdown = """
 		# This is a heading
 		This is a paragraph 1
