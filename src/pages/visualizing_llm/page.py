@@ -2,7 +2,7 @@ from dash import html
 from ...markdown import markdown_to_dash
 
 # title of the interactive blog
-title = html.H1(children="Visualizing LLMs this is a long text for the try")
+title = html.H1(children="Visualizing LLMs Step by Step")
 
 # introduction to the topic
 introduction = markdown_to_dash("""
@@ -20,6 +20,7 @@ This is a section that talks about the tokenization.
 page = html.Main(
 	children=[
 		title, 
+		introduction,
 		tokenization_section,
 	]
 )

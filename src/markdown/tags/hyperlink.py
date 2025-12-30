@@ -5,7 +5,7 @@ from ..factory import register_tag, BaseTag
 
 @register_tag("hyperlink")
 class Hyperlink(BaseTag):
-	regex = r"^\[(.+?)\]\((.+?)\)"
+	regex = r"^\[(.+)\]\((.+)\)"
 
 	@classmethod
 	def get_element(self, item):

@@ -4,8 +4,6 @@ import numpy as np
 
 from src.pages.visualizing_llm import page as visualizing_llm_page
 
-print(visualizing_llm_page)
-
 # initializing dash
 app = Dash()
 

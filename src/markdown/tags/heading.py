@@ -5,7 +5,7 @@ from ..factory import register_tag, BaseTag
 
 @register_tag("heading")
 class Heading(BaseTag):
-	regex = "^(#+)? (.+)?"
+	regex = "^(#+) (.+)"
 
 	@classmethod
 	def get_element(self, item):
