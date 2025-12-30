@@ -17,7 +17,11 @@ The blog is designed such that you can interact with all the examples and sectio
 # first markdown
 tokenization_section = markdown_to_dash("""
 ## Tokenization
-This is a section that talks about the tokenization.
+An LLM can be thought of as a mathematical tool that uses some clever mathematics to find the semantic of an incomplete sentence and generate the next probable word. So, as any mathematical tool LLM understands numbers but the input are words.
+
+To solve this issue, we use tokenization. Tokenization is the process to convert a given sentence into tokens. A token are atomic component of sentences for that LLM. It can be a word (Eg: run) or it can be prefix or suffix of word (Eg: un).
+
+You can use the interactive menu below, type your sentence and see how tokens are formed.
 """)
 
 page = html.Main(
