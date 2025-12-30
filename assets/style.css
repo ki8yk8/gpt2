@@ -71,6 +71,16 @@ a {
 	text-underline-offset: 0.2rem;
 }
 
+ul {
+	margin-left: 2rem;
+}
+ul li {
+	color: var(--color-primary);
+}
+ul li span {
+	color: var(--color-neutral);
+}
+
 .js-plotly-plot .plotly.plot-container {
 	margin: 1rem 0;
 }

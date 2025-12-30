@@ -14,4 +14,4 @@ class Bullet(BaseTag):
 		if match is None:
 			return None
 
-		return html.Li(children=match.groups()[0])
+		return html.Li(children=html.Span(children=match.groups()[0]))
