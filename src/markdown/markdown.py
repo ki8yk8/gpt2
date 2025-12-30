@@ -4,7 +4,7 @@ from dash import html
 _ELEMENTS = {
 	"h1": {
 		"regex": r"^#+ .+",   # starts with # and then have space followed by at least one character
-		"element": html.H1,
+		"create": html.H1,
 	},
 	"h2": {
 		"regex": r"^## .+",
@@ -25,6 +25,10 @@ _ELEMENTS = {
 	"h6": {
 		"regex": r"^###### .+",
 		"element": html.H6,
+	},
+	"hyperlink": {
+		"regex": r"\[(.*?)\]\((.*?)\)",
+		"element": html.A,
 	},
 	"bullets": {
 		"regex": r"/- *+/",
@@ -54,10 +58,14 @@ def markdown_to_dash(markdown):
 		pass
 
 if __name__ == "__main__":
-	print(re.fullmatch(elements["heading"]["regex"], "# hello"))
-	print(re.match(elements["heading"]["regex"], "## hello"))
-	print(re.match(elements["heading"]["regex"], "#### hello"))
-	print(re.match(elements["heading"]["regex"], "#hello"))
+	print(re.fullmatch(_ELEMENTS["h1"]["regex"], "# hello"))
+	print(re.match(_ELEMENTS["h2"]["regex"], "## hello"))
+	print(re.match(_ELEMENTS["h2"]["regex"], "##hello"))
+
+	# extracting the children of the components
+	match = re.match(_ELEMENTS["hyperlink"]["regex"], "[Link Text](https://www.google.com)")
+	if match:
+		print(match.groups())
 
 	example_markdown = """
 		# This is a heading
