@@ -16,7 +16,6 @@ app.title = "Visualizing LLM Step by Step"
 app.layout = html.Div(
 	className="dash-container",
 	children= [
-		html.H1(children="Visualizing LLMs this is a long text for the try"),
 		visualizing_llm_page,
 	]
 )
