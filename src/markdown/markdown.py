@@ -18,10 +18,10 @@ def markdown_to_dash(markdown):
 		for tag in tags.values():
 			if tag.is_match(e):
 				dash_list.append(tag.get_element(e))
-				continue
-		
-		# if none of tag matches than it is simply a paragraph
-		dash_list.append(html.P(children=e))
+				break
+		else:
+			# if none of tag matches than it is simply a paragraph
+			dash_list.append(html.P(children=e))
 
 	return dash_list
 
