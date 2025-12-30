@@ -2,23 +2,22 @@ from dash import Dash, html, dcc, callback, Output, Input
 import plotly.express as px
 import numpy as np
 
-from src.markdown import markdown_to_dash
+from src.pages.visualizing_llm import page as visualizing_llm_page
+
+print(visualizing_llm_page)
 
 # initializing dash
 app = Dash()
 
-# first markdown
-tokenization_section = markdown_to_dash("""
-## Tokenization
-This is a section that talks about the tokenization.
-""")
+# setting the title for app
+app.title = "Visualizing LLM Step by Step"
 
 # creating app layout
 app.layout = html.Div(
 	className="dash-container",
 	children= [
 		html.H1(children="Visualizing LLMs this is a long text for the try"),
-		html.Section(children=tokenization_section),
+		visualizing_llm_page,
 	]
 )
 

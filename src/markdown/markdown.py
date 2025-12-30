@@ -23,7 +23,7 @@ def markdown_to_dash(markdown):
 			# if none of tag matches than it is simply a paragraph
 			dash_list.append(html.P(children=e))
 
-	return dash_list
+	return html.Section(children=dash_list)
 
 if __name__ == "__main__":
 	example_markdown = """
