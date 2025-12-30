@@ -1,18 +1,29 @@
-import re
 from dash import html
+
+from .factory import get_register_tags
 
 def markdown_to_dash(markdown):
 	# each element is one of H1, H2, or Paragraph
 	elements = markdown.split("\n")
 	
 	# removing the whitespaces
-	elements = [e.strip() for e  in elements]
+	elements = [e.strip() for e in elements]
+	elements = [e for e in elements if len(e) > 0]
 
 	# stores the dash elements
 	dash_list = []
-
+	tags = get_register_tags()
 	for e in elements:
-		pass
+		# see if any tag is matched or not
+		for tag in tags.values():
+			if tag.is_match(e):
+				dash_list.append(tag.get_element(e))
+				continue
+		
+		# if none of tag matches than it is simply a paragraph
+		dash_list.append(html.P(children=e))
+
+	return dash_list
 
 if __name__ == "__main__":
 	example_markdown = """

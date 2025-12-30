@@ -2,6 +2,9 @@ import re
 
 _TAGS_REGISTER = {}
 
+def get_register_tags():
+	return _TAGS_REGISTER
+
 # exposes decorator to create and register the tags
 def register_tag(name):
 	def inner(func):
