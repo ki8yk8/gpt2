@@ -1,18 +1,44 @@
 import re
+from dash import html
 
-elements = {
-	"heading": {
+_ELEMENTS = {
+	"h1": {
 		"regex": r"^#+ .+",   # starts with # and then have space followed by at least one character
-		"element": None,
+		"element": html.H1,
+	},
+	"h2": {
+		"regex": r"^## .+",
+		"element": html.H2,
+	},
+	"h3": {
+		"regex": r"^### .+",
+		"element": html.H3,
+	},
+	"h4": {
+		"regex": r"^#### .+",
+		"element": html.H4,
+	},
+	"h5": {
+		"regex": r"^##### .+",
+		"element": html.H5,
+	},
+	"h6": {
+		"regex": r"^###### .+",
+		"element": html.H6,
 	},
 	"bullets": {
 		"regex": r"/- *+/",
-		"element": None,
+		"element": html.Li,
 	},
 	"others": {
-		"element": None,
+		"element": html.P,
 	}
 }
+
+def detect_and_convert_to_dash(element):
+	for tag in _ELEMENTS.values():
+		if re.match(tag["regex"], element):
+			return tag["element"](children=element)
 
 def markdown_to_dash(markdown):
 	# each element is one of H1, H2, or Paragraph
@@ -27,13 +53,12 @@ def markdown_to_dash(markdown):
 	for e in elements:
 		pass
 
-
 if __name__ == "__main__":
 	print(re.fullmatch(elements["heading"]["regex"], "# hello"))
 	print(re.match(elements["heading"]["regex"], "## hello"))
 	print(re.match(elements["heading"]["regex"], "#### hello"))
 	print(re.match(elements["heading"]["regex"], "#hello"))
-	
+
 	example_markdown = """
 		# This is a heading
 		This is a paragraph 1
