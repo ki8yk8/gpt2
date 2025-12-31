@@ -58,6 +58,22 @@ def plot_tokens_in_3d_space(red_submit, blue_submit, red_value, blue_value):
 		# adding the tips
 		fig.update_traces(mode="lines+markers", marker=dict(size=4))
 
+		axis_config = dict(
+			visible=False,
+			showbackground=False,
+			showgrid=False,
+			showticklabels=False,
+		)
+
+		fig.update_layout(
+			scene=dict(
+				xaxis=axis_config,
+				yaxis=axis_config,
+				zaxis=axis_config,
+				aspectmode="cube",
+			),
+		)
+
 		return fig
 	else:
 		return no_update
