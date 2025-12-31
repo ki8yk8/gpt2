@@ -24,10 +24,12 @@ To solve this issue, we use tokenization. Tokenization is the process to convert
 You can use the interactive menu below, type your sentence and see how tokens are formed.
 """)
 
-tokenization_interactive = html.Section(children=[
-	dcc.Input(value="", type="text", placeholder="Type words here and see it tokenize", id="token-input", n_submit=0),
-	html.Div(id="token-output", className="code token_output"),
-])
+tokenization_interactive = html.Section(
+	children=[
+		dcc.Input(value="", type="text", placeholder="Type words here and see it tokenize", id="token-input", n_submit=0),
+		html.Div(id="token-output", className="code"),
+	]
+)
 
 @callback(
 	Output("token-output", "children"),
@@ -47,5 +49,6 @@ page = html.Main(
 		title, 
 		introduction,
 		tokenization_section,
+		tokenization_interactive,
 	]
 )
