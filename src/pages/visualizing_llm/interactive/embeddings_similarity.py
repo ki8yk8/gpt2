@@ -17,7 +17,16 @@ embedding_similarity_interactive = html.Section(children=[
 			dcc.Input(value="lion", id="compare-input", n_submit=0),
 		])
 	]),
-	html.Div(children=html.Button(children="Reset", id="reset-btn", n_clicks=0), className="footer"),
+	html.Div(
+		children=
+			html.Button(
+				children="Reset", 
+				id="reset-btn", 
+				n_clicks=0,
+				className="button--secondary",
+			), 
+		className="u-flex"
+	),
 ], className="interactive")
 
 reference = []

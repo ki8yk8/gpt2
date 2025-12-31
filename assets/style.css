@@ -144,3 +144,21 @@ div.tokens_display {
 .js-plotly-plot .plotly.plot-container {
 	margin: 1rem 0;
 }
+
+button {
+	background-color: var(--color-primary);
+	border: none;
+	font-size: 1rem;
+	font-weight: 500;
+	font-family: "Poppins", sans-serif;
+	padding: 0.25rem 1rem;
+	color: var(--color-bg);
+	border-radius: 0.25rem;
+	cursor: pointer;
+}
+
+.button--secondary {
+	background-color: transparent;
+	color: var(--color-neutral);
+	border: 2px solid var(--color-neutral);
+}
