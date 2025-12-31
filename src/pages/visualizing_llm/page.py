@@ -1,4 +1,4 @@
-from dash import html
+from dash import html, dcc, callback, Output, Input, State
 from ...markdown import markdown_to_dash
 
 # title of the interactive blog
@@ -23,6 +23,24 @@ To solve this issue, we use tokenization. Tokenization is the process to convert
 
 You can use the interactive menu below, type your sentence and see how tokens are formed.
 """)
+
+tokenization_interactive = html.Section(children=[
+	dcc.Input(value="", type="text", placeholder="Type words here and see it tokenize", id="token-input", n_submit=0),
+	html.Div(id="token-output", className="code token_output"),
+])
+
+@callback(
+	Output("token-output", "children"),
+	Input("token-input", "n_submit"),    # trigger
+	State("token-input", "value"),    # state
+)
+def tokenize_on_enter(n_submit, text):
+	if not text:
+		return ""
+	
+	return [
+		html.Span(children=token, className="token") for token in text.split(" ")
+	]
 
 page = html.Main(
 	children=[
