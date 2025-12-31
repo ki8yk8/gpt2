@@ -30,18 +30,30 @@ tokenization_interactive = html.Section(
 		dcc.Input(value="", type="text", placeholder="Type words here and see it tokenize", id="token-input", n_submit=0),
 		html.Small(children="Press enter to see the tokens", className="hint"),
 		html.Div(id="token-output", className="code"),
+		html.Div(children=[
+			html.P(children=[
+				html.Span(children="Tokens: ", className="u-bold"),
+				html.Span(children="0", id="token-count")
+			]),
+			html.P(children=[
+				html.Span(children="Words: ", className="u-bold"),
+				html.Span(children="0", id="word-count")
+			])
+		], className="u-flex u-justify-space-between")
 	],
 	className="interactive"
 )
 
 @callback(
 	Output("token-output", "children"),
+	Output("token-count", "children"),
+	Output("word-count", "children"),
 	Input("token-input", "n_submit"),    # trigger
 	State("token-input", "value"),    # state
 )
 def tokenize_on_enter(n_submit, text):
 	if not text:
-		return ""
+		return "", "0", "0"
 
 	# simple word wise tokenization
 	tokens = GPTTokenizer.get_tokens(text)
@@ -57,9 +69,11 @@ def tokenize_on_enter(n_submit, text):
 				html.Span(children=token, className="token")
 			)
 
-	print(html_tokens_list)
-
-	return html.Div(children=html_tokens_list, className="code")
+	return (
+		html.Div(children=html_tokens_list, className="tokens_display"), 
+		f"{len(html_tokens_list)}", 
+		f"{len(text.split(''))}"
+	)
 
 
 page = html.Main(
