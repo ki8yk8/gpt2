@@ -9,6 +9,11 @@ class GPTTokenizer:
 		return cls.tokenizer.tokenize(sentence)
 
 	@classmethod
+	def get_token_ids(cls, sentence):
+		tokens = cls.get_tokens(sentence)
+		return cls.token2id(tokens)
+
+	@classmethod
 	def token2id(cls, tokens):
 		return cls.tokenizer.convert_tokens_to_ids(tokens)
 	
