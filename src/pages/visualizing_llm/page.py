@@ -1,5 +1,6 @@
 from dash import html, dcc, callback, Output, Input, State
 from ...markdown import markdown_to_dash
+from ...llm import GPTTokenizer
 
 # title of the interactive blog
 title = html.H1(children="Visualizing LLMs Step by Step")
@@ -33,9 +34,6 @@ tokenization_interactive = html.Section(
 	className="interactive"
 )
 
-def wordwise_tokenziation(sentence):
-	return sentence.split(" ")
-
 @callback(
 	Output("token-output", "children"),
 	Input("token-input", "n_submit"),    # trigger
@@ -46,7 +44,8 @@ def tokenize_on_enter(n_submit, text):
 		return ""
 
 	# simple word wise tokenization
-	tokens = wordwise_tokenziation(text)
+	tokens = GPTTokenizer.get_tokens(text)
+	print(tokens)
 
 	return [
 		html.Span(children=token, className="token") for token in tokens
