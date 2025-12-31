@@ -2,6 +2,7 @@ from dash import html, dcc, callback, Output, Input, State, ctx
 from dash.exceptions import PreventUpdate
 
 from ....llm.tokenizer import GPTTokenizer
+from ....llm.embeddings import Embeddings
 
 embedding_similarity_interactive = html.Section(children=[
 	html.Small("Press enter to register the word. Comparison section supports maximum of 5 words.", className="text-center"),
@@ -48,7 +49,7 @@ comparisons = []
 def create_std_output():
 	chips_classes = "rounded text-white py-1 px-2 m-0"
 	return (
-		html.P(reference[0], className=f"{chips_classes} bg-primary") if len(reference) == 1 else "", 
+		html.P(reference[0]["token"], className=f"{chips_classes} bg-primary") if len(reference) == 1 else "", 
 		[html.Div(children=[
 			html.P(c["token"], className="m-0"),
 			html.Small(c["similarity"]),
@@ -72,17 +73,22 @@ def handle_reference_word_changed(ref_submit, cmp_submit, reset_clicks, ref_inpu
 			return create_std_output()
 		
 		reference.clear()
-		reference.append(ref_input)
+		reference.append({
+			"token": ref_input,
+			"token_id": input_token_id[0],
+		})
 	elif ctx.triggered_id == "compare-input":
 		input_token_id = GPTTokenizer.get_token_ids(cmp_input)
 		if len(input_token_id) > 1:
 			return create_std_output()
 		
 		if len(comparisons) < 5:
+			similarity = Embeddings.compute_cosine_similarity(input_token_id[0], reference["token_id"]) if reference is not None else 0
+
 			comparisons.append({
 				"token": cmp_input,
 				"token_id": input_token_id[0],
-				"similarity": 0,
+				"similarity": similarity,
 			})
 	elif ctx.triggered_id == "reset-btn":
 		reference.clear()

@@ -1,7 +1,7 @@
 import numpy as np
 import json
 
-with open("./embeddings-3d.json", "r") as fp:
+with open("embeddings-3d.json", "r") as fp:
 	EMBEDDINGS = json.load(fp)
 
 class Embeddings:
