@@ -73,6 +73,11 @@ def handle_reference_word_changed(ref_submit, cmp_submit, reset_clicks, ref_inpu
 			return create_std_output()
 		
 		reference.clear()
+
+		for i, c in enumerate(comparisons):
+			similarity = Embeddings.compute_cosine_similarity(input_token_id[0], c["token_id"])
+			comparisons[i]["similarity"] = f"{similarity:.3f}"
+
 		reference.append({
 			"token": ref_input,
 			"token_id": input_token_id[0],
@@ -83,12 +88,12 @@ def handle_reference_word_changed(ref_submit, cmp_submit, reset_clicks, ref_inpu
 			return create_std_output()
 		
 		if len(comparisons) < 5:
-			similarity = Embeddings.compute_cosine_similarity(input_token_id[0], reference["token_id"]) if reference is not None else 0
+			similarity = Embeddings.compute_cosine_similarity(input_token_id[0], reference[0]["token_id"]) if len(reference) > 0 else 0
 
 			comparisons.append({
 				"token": cmp_input,
 				"token_id": input_token_id[0],
-				"similarity": similarity,
+				"similarity": f"{similarity:.3f}",
 			})
 	elif ctx.triggered_id == "reset-btn":
 		reference.clear()
