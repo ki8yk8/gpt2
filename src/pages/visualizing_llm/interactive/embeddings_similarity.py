@@ -1,4 +1,5 @@
-from dash import html, dcc, callback, Output, Input, State
+from dash import html, dcc, callback, Output, Input, State, ctx
+from dash.exceptions import PreventUpdate
 
 embedding_similarity_interactive = html.Section(children=[
 	html.P("Press enter to register the word. Comparison section supports maximum of 5 words."),
@@ -18,34 +19,34 @@ embedding_similarity_interactive = html.Section(children=[
 	]),
 ], className="interactive")
 
-reference = None
+reference = []
 comparisons = []
 def create_std_output():
 	return (
-		html.Span(reference, className="chips") if reference else "", 
-		[html.Span(c, className="chips") for c in comparisons],
+		html.Span(reference[0], className="token") if len(reference) == 1 else "", 
+		[html.Span(c, className="token") for c in comparisons],
 	)
 
 @callback(
 	Output("reference-word", "children"),
 	Output("comparison-words", "children"),
 	Input("reference-input", "n_submit"),
+	Input("compare-input", "n_submit"),
 	State("reference-input", "value"),
+	State("compare-input", "value"),
 	prevent_initial_call=True,
 )
-def handle_reference_word_changed(n_submit, word):
-	reference = word
-	return create_std_output()
-
-@callback(
-	Output("reference-word", "children"),
-	Output("comparison-words", "children"),
-	Input("compare-input", "n_submit"),
-	State("compare-input", "value"),
-)
-def handle_comaprison_word_added(n_submit, value):
-	if len(comparisons) >= 5:
+def handle_reference_word_changed(ref_submit, cmp_submit, ref_input, cmp_input):
+	if ctx.triggered_id == "reference-input":
+		reference.clear()
+		reference.append(ref_input)
+		
 		return create_std_output()
-	
-	comparisons.append(value)
-	return create_std_output()
+	elif ctx.triggered_id == "compare-input":
+		if len(comparisons) >= 5:
+			return create_std_output()
+		
+		comparisons.append(cmp_input)
+		return create_std_output()
+	else:
+		raise PreventUpdate
