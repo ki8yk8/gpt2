@@ -45,17 +45,28 @@ def tokenize_on_enter(n_submit, text):
 
 	# simple word wise tokenization
 	tokens = GPTTokenizer.get_tokens(text)
-	print(tokens)
 
-	return [
-		html.Span(children=token, className="token") for token in tokens
-	]
+	html_tokens_list = []
+	for token in tokens:
+		if token.startswith("Ġ"):
+			html_tokens_list.append(
+				html.Span(children=token[1:], className="token token--space")
+			)
+		else:
+			html_tokens_list.append(
+				html.Span(children=token, className="token")
+			)
+
+	print(html_tokens_list)
+
+	return html.Div(children=html_tokens_list, className="code")
+
 
 page = html.Main(
 	children=[
-		# title, 
-		# introduction,
-		# tokenization_section,
+		title, 
+		introduction,
+		tokenization_section,
 		tokenization_interactive,
 	]
 )
