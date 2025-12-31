@@ -13,5 +13,6 @@ class Embeddings:
 		
 		return t1.dot(t2)
 	
+	@classmethod
 	def get_embeding(cls, i):
-		return EMBEDDINGS(i)
+		return EMBEDDINGS[str(i)]
