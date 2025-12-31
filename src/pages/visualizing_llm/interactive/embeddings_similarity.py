@@ -17,6 +17,7 @@ embedding_similarity_interactive = html.Section(children=[
 			dcc.Input(value="lion", id="compare-input", n_submit=0),
 		])
 	]),
+	html.Div(children=html.Button(children="Reset", id="reset-btn", n_clicks=0), className="footer"),
 ], className="interactive")
 
 reference = []
@@ -32,21 +33,22 @@ def create_std_output():
 	Output("comparison-words", "children"),
 	Input("reference-input", "n_submit"),
 	Input("compare-input", "n_submit"),
+	Input("reset-btn", "n_clicks"),
 	State("reference-input", "value"),
 	State("compare-input", "value"),
 	prevent_initial_call=True,
 )
-def handle_reference_word_changed(ref_submit, cmp_submit, ref_input, cmp_input):
+def handle_reference_word_changed(ref_submit, cmp_submit, reset_clicks, ref_input, cmp_input):
 	if ctx.triggered_id == "reference-input":
 		reference.clear()
 		reference.append(ref_input)
-		
-		return create_std_output()
 	elif ctx.triggered_id == "compare-input":
-		if len(comparisons) >= 5:
-			return create_std_output()
-		
-		comparisons.append(cmp_input)
-		return create_std_output()
+		if len(comparisons) < 5:
+			comparisons.append(cmp_input)
+	elif ctx.triggered_id == "reset-btn":
+		reference.clear()
+		comparisons.clear()
 	else:
 		raise PreventUpdate
+
+	return create_std_output()
