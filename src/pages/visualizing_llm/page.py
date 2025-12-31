@@ -34,11 +34,11 @@ Here, embeddings come into the play. For each token, the LLM (here, GPT 2) has a
 
 page = html.Main(
 	children=[
-		title, 
-		introduction,
-		tokenization_section,
+		# title, 
+		# introduction,
+		# tokenization_section,
 		tokenization_interactive,
-		embedding_section,
+		# embedding_section,
 		embedding_similarity_interactive,
 	]
 )

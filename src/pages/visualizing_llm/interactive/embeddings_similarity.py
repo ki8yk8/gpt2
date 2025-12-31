@@ -2,25 +2,35 @@ from dash import html, dcc, callback, Output, Input, State, ctx
 from dash.exceptions import PreventUpdate
 
 embedding_similarity_interactive = html.Section(children=[
-	html.P("Press enter to register the word. Comparison section supports maximum of 5 words."),
-	html.Div(children=[
-		html.Div(children=[], id="reference-word"),
+	html.Small("Press enter to register the word. Comparison section supports maximum of 5 words."),
+	html.Div(children= [
 		html.Div(children=[
-			html.Small(children="Reference Word"),
-			dcc.Input(value="cat", id="reference-input", n_submit=0),
-		])
-	]),
-	html.Div(children=[
-		html.Div(children=[], id="comparison-words"),
+			html.Div(
+				children=[], 
+				id="reference-word", 
+				className="flex flex-row gap-2 justify-center flex-wrap"
+			),
+			html.Div(children=[
+				html.Small(children="Reference Word"),
+				dcc.Input(value="cat", id="reference-input", n_submit=0),
+			])
+		], className="flex-grow"),
 		html.Div(children=[
-			html.Small(children="Comparison Word"),
-			dcc.Input(value="lion", id="compare-input", n_submit=0),
-		])
-	]),
+			html.Div(
+				children=[], 
+				id="comparison-words",
+				className="flex flex-row gap-2 justify-center flex-wrap"
+			),
+			html.Div(children=[
+				html.Small(children="Comparison Word"),
+				dcc.Input(value="lion", id="compare-input", n_submit=0),
+			])
+		], className="flex-grow"),
+	], className="flex flex-row gap-2"),
 	html.Div(
 		children=
 			html.Button(
-				children="Reset", 
+				children="Reset",
 				id="reset-btn", 
 				n_clicks=0,
 				className="button--secondary",
