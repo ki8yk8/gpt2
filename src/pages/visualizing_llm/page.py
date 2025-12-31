@@ -27,9 +27,14 @@ You can use the interactive menu below, type your sentence and see how tokens ar
 tokenization_interactive = html.Section(
 	children=[
 		dcc.Input(value="", type="text", placeholder="Type words here and see it tokenize", id="token-input", n_submit=0),
+		html.Small(children="Press enter to see the tokens", className="hint"),
 		html.Div(id="token-output", className="code"),
-	]
+	],
+	className="interactive"
 )
+
+def wordwise_tokenziation(sentence):
+	return sentence.split(" ")
 
 @callback(
 	Output("token-output", "children"),
@@ -39,16 +44,19 @@ tokenization_interactive = html.Section(
 def tokenize_on_enter(n_submit, text):
 	if not text:
 		return ""
-	
+
+	# simple word wise tokenization
+	tokens = wordwise_tokenziation(text)
+
 	return [
-		html.Span(children=token, className="token") for token in text.split(" ")
+		html.Span(children=token, className="token") for token in tokens
 	]
 
 page = html.Main(
 	children=[
-		title, 
-		introduction,
-		tokenization_section,
+		# title, 
+		# introduction,
+		# tokenization_section,
 		tokenization_interactive,
 	]
 )

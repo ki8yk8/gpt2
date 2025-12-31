@@ -81,6 +81,42 @@ ul li span {
 	color: var(--color-neutral);
 }
 
+section.interactive {
+	/* border: 2px solid var(--color-neutral); */
+}
+input[type="text"] {
+	font-size: 1rem;
+	padding: 0.5rem 1rem;
+	border: 1px solid var(--color-neutral);
+	background-color: transparent;
+	font-family: "Poppins", sans-serif;
+}
+input[type="text"]:focus {
+	border-color: var(--color-primary);
+}
+
+small.hint {
+	display: block;
+	text-align: center;
+}
+
+span.token {
+	background-color: var(--color-primary);
+	color: var(--color-bg);
+	padding: 0.25rem 0.5rem;
+	border-radius: 0.25rem;
+}
+span.token:nth-child(even) {
+	background-color: var(--color-neutral);
+}
+
+span.space {
+}
+
+div.code {
+	padding: 1rem;
+}
+
 .js-plotly-plot .plotly.plot-container {
 	margin: 1rem 0;
 }
