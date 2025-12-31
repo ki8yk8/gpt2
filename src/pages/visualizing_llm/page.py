@@ -33,6 +33,14 @@ LLM doesn't understands word but they need numbers to operate. So, the question 
 Here, embeddings come into the play. For each token, the LLM (here, GPT 2) has a n-dimensional vector reprsentation for each token. The vector peserves the semantic representation of each token such that, two vectors like "cat" and "lion" that are similar are closer in the embedding space than the token "potato".
 """)
 
+embedding_depth_section = markdown_to_dash("""
+Each n-dimensional vector corresponding a token represents that vector in the embedding space. Each dimension is assume to hold one property might be emotion, color, type, living or non-living, etc. Such that this results in the similar tokens to be pointing towards same direction in the embedding space.
+
+For an illustration, the 768-dimensional vector of GPT-2 has been reduced to 3-d using Principal Component Analysis. This might introduce some noise because information are compresssed so, errors like two similar tokens might be placed apart from each other while dissimilar can be placed together.
+
+Also, a word is sometime divided into multiple token example; lion is divided as l+ion. For the sake of demonstration, we have only considered the zeroth index token so, please try to add words with single token in the illustration graph. The tokens can be found from the first interactive, tokenization.
+""")
+
 page = html.Main(
 	children=[
 		title, 
@@ -41,6 +49,7 @@ page = html.Main(
 		tokenization_interactive,
 		embedding_section,
 		embedding_similarity_interactive,
+		embedding_depth_section,
 		embeddings_plot_interactive,
 	]
 )
