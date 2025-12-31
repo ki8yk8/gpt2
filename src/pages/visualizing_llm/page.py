@@ -1,6 +1,7 @@
 from dash import html
 from ...markdown import markdown_to_dash
 from .interactive.tokens import tokenization_interactive
+from .interactive.embeddings_similarity import embedding_similarity_interactive
 
 # title of the interactive blog
 title = html.H1(children="Visualizing LLMs Step by Step")
@@ -37,5 +38,7 @@ page = html.Main(
 		introduction,
 		tokenization_section,
 		tokenization_interactive,
+		embedding_section,
+		embedding_similarity_interactive,
 	]
 )
