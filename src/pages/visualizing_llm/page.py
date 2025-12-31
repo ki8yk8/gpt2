@@ -27,7 +27,7 @@ You can use the interactive menu below, type your sentence and see how tokens ar
 
 tokenization_interactive = html.Section(
 	children=[
-		dcc.Input(value="", type="text", placeholder="Type words here and see it tokenize", id="token-input", n_submit=0),
+		dcc.Input(value="Tokenizing is fun.", type="text", placeholder="Type words here and see it tokenize", id="token-input", n_submit=0),
 		html.Small(children="Press enter to see the tokens", className="hint"),
 		html.Div(id="token-output", className="code"),
 		html.Div(children=[
@@ -39,7 +39,7 @@ tokenization_interactive = html.Section(
 				html.Span(children="Words: ", className="u-bold"),
 				html.Span(children="0", id="word-count")
 			])
-		], className="u-flex u-justify-space-between")
+		], className="u-w-100 u-flex u-justify-between")
 	],
 	className="interactive"
 )
@@ -50,6 +50,7 @@ tokenization_interactive = html.Section(
 	Output("word-count", "children"),
 	Input("token-input", "n_submit"),    # trigger
 	State("token-input", "value"),    # state
+	prevent_initial_call=False,
 )
 def tokenize_on_enter(n_submit, text):
 	if not text:
@@ -71,8 +72,8 @@ def tokenize_on_enter(n_submit, text):
 
 	return (
 		html.Div(children=html_tokens_list, className="tokens_display"), 
-		f"{len(html_tokens_list)}", 
-		f"{len(text.split(''))}"
+		str(len(html_tokens_list)), 
+		str(len(text.split()))
 	)
 
 
