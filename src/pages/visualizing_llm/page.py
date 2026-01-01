@@ -83,6 +83,17 @@ The temperature helps to redistribute the probability across the vocabulary spac
 The value of temperature is between 0 and Infinity. Value of 0 means the probabiilty of highest token will be near to 1 making the LLM completely deterministic while a higher temperature will distribute the probability more uniformly. This can be realized from the interactive below.
 """)
 
+appendix = markdown_to_dash("# Appendix")
+
+appendix_positional_encoding = markdown_to_dash("""
+## Positional Encoding
+A transformer achitecture is parallel i.e. for a given sentence it processes all words at same time. And this is problem in LLM because it loses the infromation of order. For a model without this, "Dog bites Man" is almost similar to "Man bites Dog" and to fix this there is concept of positional encoding.
+
+The positional encoding helps to inject a unique signal into the word embeddings to defint sequence. It uses sine and cosine functions of different frequency. This pattern is responsible for giving a unique identity to every position so model knows what is first and what is last.
+
+The value is calculated using math formula and added to the token. A low frequency wave changes slowly while high frequency changes fast. This unique combination makes sure every position has different values. This can be realized from the interactive below.
+""")
+
 page = html.Main(
 	children=[
 		title, 
@@ -98,5 +109,6 @@ page = html.Main(
 		what_is_attention,
 		concept_of_temperature,
 		temperature_interactive,
+		appendix,
 	]
 )
