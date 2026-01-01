@@ -1,4 +1,6 @@
 from dash import dcc, html, Input, Output, State, callback, ctx, no_update
+import plotly.graph_objects as go
+import numpy as np
 
 learning_rate_ineractive = html.Div(children=[
 	html.P(children="Click 'Train Step' to move the ball down the hill (minimize the error)", className="font-center"),
@@ -30,6 +32,13 @@ learning_rate_ineractive = html.Div(children=[
 	], className="w-full")
 ])
 
+def loss_function(x):
+	return x**2
+
+def gradient(x):
+	# derivative of loss function
+	return 2*x
+
 @callback(
 	Output("loss-graph", "figure"),
 	Output("history-store", "data"),
@@ -43,9 +52,53 @@ def update_training_graph(step_clicks, reset_clicks, learning_rate, history):
 		history = [8.0]
 	elif ctx.triggered_id == "step-btn":
 		current_x = history[-1]
-		pass
+		grad = gradient(current_x)
+		new_x = current_x - (learning_rate * grad)
+		history.append(new_x)
 	
 	x_range = np.linspace(-10, 10, 100)
-	y_range = None
+	y_range = loss_function(x_range)
 
-	return no_update
+	fig = go.Figure()
+	fig.add_trace(
+		go.Scatter(
+			x=x_range, y=y_range,
+			mode="lines",
+			name="Error Surface",
+			line=dict(
+				color="lightgray",
+				width=2,
+			)
+		)
+	)
+
+	history_x = np.array(history)
+	history_y = loss_function(history_x)
+
+	fig.add_trace(
+		go.Scatter(
+			x=history_x,
+			y=history_y,
+			mode="lines+markers",
+			name="Traning Path",
+		)
+	)
+
+	fig.add_trace(
+		go.Scatter(
+			x=[history_x[-1]],
+			y=[history_y[-1]],
+			mode="markers",
+			name="Current Weight",
+		)
+	)
+
+	fig.update_layout(
+		title=f"Step {len(history)-1} with Current Error: {history_y[-1]:.4f}",
+		xaxis_title="Weight Parameter (x)",
+		yaxis_title="Loss/Error (y)",
+		xaxis=dict(range=[-10, 10]),
+		yaxis=dict(range=[-10, 10])
+	)
+
+	return fig, history
