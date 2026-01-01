@@ -95,6 +95,15 @@ The positional encoding helps to inject a unique signal into the word embeddings
 The value is calculated using math formula and added to the token. A low frequency wave changes slowly while high frequency changes fast. This unique combination makes sure every position has different values. This can be realized from the interactive below.
 """)
 
+appendix_learning = markdown_to_dash("""
+# How Learning Works?
+A model training is iterative process i.e. it improves step by step. And this is fundaemntal in LLM training too. At start, the model is dumb with high error, and to fix there is concept of gradient descent.
+
+The learning rate helps to decide how much to change the weights to reduce the error. This rate is responsible for how fast model learns.
+
+The value is hyperparameter. Value of too low means the model will take forever to learn while a high learning rate will make training unstable and error will explode. This can be realized from the interactive below.
+""")
+
 page = html.Main(
 	children=[
 		title, 
@@ -113,5 +122,6 @@ page = html.Main(
 		appendix,
 		appendix_positional_encoding,
 		positional_encoding_interactive,
+		appendix_learning,
 	]
 )
