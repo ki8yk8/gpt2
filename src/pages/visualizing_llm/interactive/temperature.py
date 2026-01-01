@@ -1,11 +1,13 @@
 from dash import html, dcc, Output, Input, callback, no_update
 import numpy as np
+import plotly.express as px
+import pandas as pd
 
 TOKENS = ["apple", "banana", "cherry", "date", "orange", "fig", "grape"]
 LOGITS = np.array([2.0, 1.5, 3.5, 0.5, 1.0, 0.2, 1.8])
 
-temperature_intearctive = html.Section(children=[
-	html.P("Adjust the Temperature to see how it flattens or sharpens the proability distribution." className="text-center"),
+temperature_interactive = html.Section(children=[
+	html.P("Adjust the Temperature to see how it flattens or sharpens the proability distribution.", className="text-center"),
 	html.Div(children=[
 		dcc.Slider(
 			id="temp-slider",
@@ -23,10 +25,9 @@ temperature_intearctive = html.Section(children=[
 				"always_visible": True
 			},
 		),
-		html.Button("Sample 100 Times", id="sample-btn", n_clicks=0),
-		dcc.Graph(id="prob-dist-graph"),
-		dcc.Graph(id="sampling-graph"),
-	], className="")
+		dcc.Graph(id="prob-dist-graph", style={"width": "100%"}),
+		dcc.Graph(id="sampling-graph", style={"width": "100%"}),
+	], className="w-full")
 ], className="interactive")
 
 def softmax_with_temperature(logits, temperature):
@@ -36,11 +37,46 @@ def softmax_with_temperature(logits, temperature):
 
 	return probs
 
-@app.callback(
+@callback(
 	Output("prob-dist-graph", "figure"),
 	Output("sampling-graph", "figure"),
 	Input("temp-slider", "value"),
-	Input("sample-btn", "n_clicks"),
 )
-def create_or_update_graphs(temperature, sample_clicks):
-	return no_update
+def create_or_update_graphs(temperature):
+	probs = softmax_with_temperature(LOGITS, temperature)
+	data = pd.DataFrame({
+		"Token": TOKENS,
+		"Probability": probs,
+	})
+
+	# drawing the figure 1
+	fig_prob = px.bar(
+		data,
+		x="Token",
+		y="Probability",
+		title=f"Probability Distribution at T={temperature}",
+	)
+
+	# sampling and having the distribution curve of the token
+	samples = np.random.choice(TOKENS, size=100, p=probs)
+	unique, counts = np.unique(samples, return_counts=True)
+
+	data = {token: 0 for token in TOKENS}
+	for token, count in zip(unique, counts):
+		data[token] = count
+
+	df_sample = pd.DataFrame({
+		"Token": TOKENS,
+		"Count": [data[t] for t in TOKENS],
+	})
+
+	fig_sample = px.bar(
+		df_sample,
+		x="Token",
+		y="Count",
+		title="Actual Samples (n=100)",
+		text_auto=True,
+	)
+
+	return fig_prob, fig_sample
+	
