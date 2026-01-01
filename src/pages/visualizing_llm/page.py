@@ -111,6 +111,7 @@ page = html.Main(
 		concept_of_temperature,
 		temperature_interactive,
 		appendix,
+		appendix_positional_encoding,
 		positional_encoding_interactive,
 	]
 )
