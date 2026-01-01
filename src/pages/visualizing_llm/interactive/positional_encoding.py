@@ -5,11 +5,11 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 positional_encoding_interactive = html.Section(children=[
-	html.P("Demonstration of addition of Positional Encoding" className="text-center"),
+	html.P("Demonstration of addition of Positional Encoding", className="text-center"),
 	
 	html.Div([
 		html.Div([
-			html.Small(children="Number of tokens", style="font-bold"),
+			html.Small(children="Number of tokens", className="font-bold"),
 			dcc.Slider(
 				id="seq-len-slider",
 				min=10,
@@ -23,13 +23,13 @@ positional_encoding_interactive = html.Section(children=[
 				},
 				tooltip={
 					"placement": "bottom",
-					"always_visible": True,s
+					"always_visible": True,
 				}
 			)
 		], className="w-full"),
 
 		html.Div(children=[
-			html.Small(children="Embedding Dimension", style="font-bold"),
+			html.Small(children="Embedding Dimension", className="font-bold"),
 			dcc.Slider(
 				id="d-model-slider",
 				min=16,
@@ -51,8 +51,8 @@ positional_encoding_interactive = html.Section(children=[
 		html.Div(children=[
 			dcc.Graph(id="heatmap-graph", className="w-full"),
 			dcc.Graph(id="line-graph", className="w-full"),
-		])
-	])
+		], className="w-full")
+	], className="w-full")
 ], className="interactive w-full")
 
 def get_positional_encoding(seq_len, d_model):
@@ -62,7 +62,7 @@ def get_positional_encoding(seq_len, d_model):
 					PE(pos, 21+1) = cos(pos/10000^(2i/d_model))
 	"""
 	pe = np.zeros((seq_len, d_model))
-	position = np.arange(0, seq_len)[:, np.new_axis]
+	position = np.arange(0, seq_len)[:, np.newaxis]
 
 	div_term = np.exp(np.arange(0, d_model, 2) * (-np.log(10000.0)/d_model))
 	pe[:, 0::2] = np.sin(position*div_term)
@@ -96,11 +96,11 @@ def show_positional_embedding_graph(seq_len, d_model):
 
 	fig_line = go.Figure()
 
-	for idx, color, label in zipe(indices_to_plot, colors, labels):
+	for idx, color, label in zip(indices_to_plot, colors, labels):
 		fig_line.add_trace(
 			go.Scatter(
 				x=np.arange(seq_len),
-				y=pe.matrix[:, idx],
+				y=pe_matrix[:, idx],
 				mode="lines",
 				name=label,
 				line=dict(
