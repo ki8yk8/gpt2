@@ -1,6 +1,8 @@
 from dash import dcc, html, Input, Output, callback
 import numpy as np
 import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
 
 positional_encoding_interactive = html.Section(children=[
 	html.P("Demonstration of addition of Positional Encoding" className="text-center"),
@@ -53,6 +55,21 @@ positional_encoding_interactive = html.Section(children=[
 	])
 ], className="interactive w-full")
 
+def get_positional_encoding(seq_len, d_model):
+	"""
+	From paper Attention is all you need
+	Formula: PE(pos, 2i) = sin(pos/10000^(2i/d_model))
+					PE(pos, 21+1) = cos(pos/10000^(2i/d_model))
+	"""
+	pe = np.zeros((seq_len, d_model))
+	position = np.arange(0, seq_len)[:, np.new_axis]
+
+	div_term = np.exp(np.arange(0, d_model, 2) * (-np.log(10000.0)/d_model))
+	pe[:, 0::2] = np.sin(position*div_term)
+	pe[:, 1::2] = np.cos(position*div_term)
+	
+	return pe
+
 @callback(
 	Output("heatmap-graph", "figure"),
 	Output("line-graph", "figure"),
@@ -60,4 +77,37 @@ positional_encoding_interactive = html.Section(children=[
 	Input("d-model-slider", "value"),
 )
 def show_positional_embedding_graph(seq_len, d_model):
-	pass
+	pe_matrix = get_positional_encoding(seq_len, d_model)
+
+	fig_heatmap = px.imshow(
+		pe_matrix,
+		labels=dict(
+			x="Embedding Dimension",
+			y="Token Position",
+			color="Value",
+		),
+		origin="lower",
+	)
+
+	# or for the fiigure 2
+	indices_to_plot = [0, d_model//2, d_model-1]
+	colors = ["blue", "orange", "red"]
+	labels = ["Low dim (0)", f"Mid dim ({d_model//2})", f"High dim ({d_model-1})"]
+
+	fig_line = go.Figure()
+
+	for idx, color, label in zipe(indices_to_plot, colors, labels):
+		fig_line.add_trace(
+			go.Scatter(
+				x=np.arange(seq_len),
+				y=pe.matrix[:, idx],
+				mode="lines",
+				name=label,
+				line=dict(
+					width=3,
+					color=color,
+				)
+			)
+		)
+
+	return fig_heatmap, fig_line
