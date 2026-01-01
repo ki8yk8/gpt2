@@ -1,5 +1,5 @@
 from transformers import set_seed, AutoModelForCausalLM, AutoTokenizer
-from torch.nn.functional import softmax
+import torch
 
 # creating the seed
 set_seed(0)
@@ -12,7 +12,7 @@ class GPT2Model:
 
 	@classmethod
 	def complete(cls, prompt):
-		inputs = cls.tokenizer(prompt, return_tensors="pt", output_attentions=True)
+		inputs = cls.tokenizer(prompt, return_tensors="pt")
 
 		with torch.no_grad():
 			outputs = cls.model(**inputs)

@@ -3,7 +3,7 @@ from ...markdown import markdown_to_dash
 from .interactive.tokens import tokenization_interactive
 from .interactive.embeddings_similarity import embedding_similarity_interactive
 from .interactive.embeddings_plot import embeddings_plot_interactive
-from .interactive.autoregressive import autoregressive_interactive
+# from .interactive.autoregressive import autoregressive_interactive
 
 # title of the interactive blog
 title = html.H1(children="Visualizing LLMs Step by Step")
@@ -49,6 +49,10 @@ Now, let's look at what LLM is. LLM stands for Large Langauge Model and it is an
 Let's focus on the word autoregressive. An LLM can be considered as a function that predicts the new token based on a set of tokens. i.e. when you give a prompt to the LLM, it's task is to complete the prompt token by token. It does so until a special token End of Sequence is received. 
 """)
 
+auto_regressive_interactive_disabled = markdown_to_dash("""
+The autoregressive interactive has been disabled because even GPT2 model didn't ran on my local machine and I wasn't able to debug the workflow without waiting for like 20 minutes for just a single token.
+""")
+
 what_is_attention = markdown_to_dash("""
 ## Attention in Transformer
 This part won't be deep diving into the technical details, but we will focus on intution behind the attention. For a given set on input tokens, the task of LLM is to generate next token. Generally, the new token is something that is contextually and factually correct.
@@ -60,6 +64,23 @@ For this attention comes into play. In attention, you get the value of dependenc
 Example; in the sentence "The capital of Nepal is" the attention realizes that for generating new token "capital" and "nepal" are much more important. So, it computes new_token as weighted sum of "captial" and "sum" and the weights are determined by attention.
 """)
 
+what_is_lmhead = markdown_to_dash("""
+## LM Head
+The final output after attention decoder stack is a n-dimensional vector in our case 768. The 768 dimensional vector now should be converted back to a token. For this in LLM there is something known as LM head.
+
+The LM head receives a 768-d vector projects the vector into the vocabulary space i.e around 50,000 dimension vector then, applies softmax such that the we obtain a probability distribution over all the words in vocabulary.
+
+Then, the distribution is sampled to get a result which is the next token.
+""")
+
+concept_of_temperature = markdown_to_dash("""
+## Temperature
+A mathematical function is determinstic i.e. for a given set of same input the output is always constant. And this is almost similar in LLM too. For a given set of input tokens, the set of output tokens are almost deterministic, and to control this there is a knob of temperature.
+
+The temperature helps to redistribute the probability across the vocabulary space to make distribution uniform. This uniformity is responsible for generating something that seems random each time the model processes the same input.
+
+The value of temperature is between 0 and Infinity. Value of 0 means the probabiilty of highest token will be near to 1 making the LLM completely deterministic while a higher temperature will distribute the probability more uniformly. This can be realized from the interactive below.
+""")
 
 page = html.Main(
 	children=[
@@ -72,7 +93,7 @@ page = html.Main(
 		embedding_depth_section,
 		embeddings_plot_interactive,
 		introduction_to_autoregression,
-		autoregressive_interactive,
+		# autoregressive_interactive,
 		what_is_attention,
 	]
 )
