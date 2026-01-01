@@ -5,6 +5,7 @@ from .interactive.embeddings_similarity import embedding_similarity_interactive
 from .interactive.embeddings_plot import embeddings_plot_interactive
 # from .interactive.autoregressive import autoregressive_interactive
 from .interactive.temperature import temperature_interactive
+from .interactive.positional_encoding import positional_encoding_interactive
 
 # title of the interactive blog
 title = html.H1(children="Visualizing LLMs Step by Step")
@@ -110,5 +111,6 @@ page = html.Main(
 		concept_of_temperature,
 		temperature_interactive,
 		appendix,
+		positional_encoding_interactive,
 	]
 )
