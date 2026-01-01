@@ -37,7 +37,8 @@ prompt_with_response = {
 )
 def generate_autoregressively(prompt_submit, next_submit, reset_submit, prompt):
 	if ctx.triggered_id == "prompt-input":
-		GPT2Model.complete(prompt)
+		outputs = GPT2Model.complete(prompt)
+		
 	elif ctx.triggered_id == "next-token":
 		pass
 	elif ctx.triggered_id == "reset-button":

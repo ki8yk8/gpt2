@@ -4,6 +4,7 @@ from .interactive.tokens import tokenization_interactive
 from .interactive.embeddings_similarity import embedding_similarity_interactive
 from .interactive.embeddings_plot import embeddings_plot_interactive
 # from .interactive.autoregressive import autoregressive_interactive
+from .interactive.temperature import temperature_interactive
 
 # title of the interactive blog
 title = html.H1(children="Visualizing LLMs Step by Step")
@@ -95,5 +96,7 @@ page = html.Main(
 		introduction_to_autoregression,
 		# autoregressive_interactive,
 		what_is_attention,
+		concept_of_temperature,
+		temperature_interactive,
 	]
 )
