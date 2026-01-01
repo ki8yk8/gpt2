@@ -6,6 +6,7 @@ from .interactive.embeddings_plot import embeddings_plot_interactive
 # from .interactive.autoregressive import autoregressive_interactive
 from .interactive.temperature import temperature_interactive
 from .interactive.positional_encoding import positional_encoding_interactive
+from .interactive.learning_rate import learning_rate_ineractive
 
 # title of the interactive blog
 title = html.H1(children="Visualizing LLMs Step by Step")
@@ -123,5 +124,6 @@ page = html.Main(
 		appendix_positional_encoding,
 		positional_encoding_interactive,
 		appendix_learning,
+		learning_rate_ineractive
 	]
 )
