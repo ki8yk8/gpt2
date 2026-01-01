@@ -27,7 +27,7 @@ learning_rate_ineractive = html.Div(children=[
 
 		html.Div(children=[
 			html.Button(children="Train 1 step", id="step-btn", n_clicks=0, className="button--primary"),
-			html.Button(children="Reset", id="reset-btn", n_clicks=0, className="button--secondary"),
+			html.Button(children="Reset", id="lr-reset-btn", n_clicks=0, className="button--secondary"),
 		], className="flex flex-row justify-around items-center")
 	], className="w-full")
 ])
@@ -43,12 +43,12 @@ def gradient(x):
 	Output("loss-graph", "figure"),
 	Output("history-store", "data"),
 	Input("step-btn", "n_clicks"),
-	Input("reset-btn", "n_clicks"),
+	Input("lr-reset-btn", "n_clicks"),
 	State("lr-slider", "value"),
 	State("history-store", "data"),
 )
 def update_training_graph(step_clicks, reset_clicks, learning_rate, history):
-	if ctx.triggered_id == "reset-btn":
+	if ctx.triggered_id == "lr-reset-btn":
 		history = [8.0]
 	elif ctx.triggered_id == "step-btn":
 		current_x = history[-1]
