@@ -49,6 +49,17 @@ Now, let's look at what LLM is. LLM stands for Large Langauge Model and it is an
 Let's focus on the word autoregressive. An LLM can be considered as a function that predicts the new token based on a set of tokens. i.e. when you give a prompt to the LLM, it's task is to complete the prompt token by token. It does so until a special token End of Sequence is received. 
 """)
 
+what_is_attention = markdown_to_dash("""
+## Attention in Transformer
+This part won't be deep diving into the technical details, but we will focus on intution behind the attention. For a given set on input tokens, the task of LLM is to generate next token. Generally, the new token is something that is contextually and factually correct.
+
+This contextual awareness comes from attention. While generating new token, model passes the information of each token with each other to enrich themselves. Example; "Money can be deposited at bank" and "I am fishing from the river bank", in both sentence the word "bank" is same but their meaning is different based on the context. But, if you recall, we know that the LLM only has one vector for each token so, to handle such situation all the tokens passes each other's information and update themselves so that they can differentiate if they are in the bank or river bank.
+
+For this attention comes into play. In attention, you get the value of dependency like how much is my first token dependent on second and so on. And in this way you predict how much the new token should depend on all the other tokens. This dependency is computed, and based on it new vectors are formed and a new token in generated.
+
+Example; in the sentence "The capital of Nepal is" the attention realizes that for generating new token "capital" and "nepal" are much more important. So, it computes new_token as weighted sum of "captial" and "sum" and the weights are determined by attention.
+""")
+
 
 page = html.Main(
 	children=[
@@ -62,5 +73,6 @@ page = html.Main(
 		embeddings_plot_interactive,
 		introduction_to_autoregression,
 		autoregressive_interactive,
+		what_is_attention,
 	]
 )
