@@ -3,6 +3,7 @@ from ...markdown import markdown_to_dash
 from .interactive.tokens import tokenization_interactive
 from .interactive.embeddings_similarity import embedding_similarity_interactive
 from .interactive.embeddings_plot import embeddings_plot_interactive
+from .interactive.autoregressive import autoregressive_interactive
 
 # title of the interactive blog
 title = html.H1(children="Visualizing LLMs Step by Step")
@@ -41,6 +42,14 @@ For an illustration, the 768-dimensional vector of GPT-2 has been reduced to 3-d
 Also, a word is sometime divided into multiple token example; lion is divided as l+ion. For the sake of demonstration, we have only considered the zeroth index token so, please try to add words with single token in the illustration graph. The tokens can be found from the first interactive, tokenization.
 """)
 
+introduction_to_autoregression = markdown_to_dash("""
+## LLM
+Now, let's look at what LLM is. LLM stands for Large Langauge Model and it is an autoregressive generative model for generating text.
+
+Let's focus on the word autoregressive. An LLM can be considered as a function that predicts the new token based on a set of tokens. i.e. when you give a prompt to the LLM, it's task is to complete the prompt token by token. It does so until a special token End of Sequence is received. 
+""")
+
+
 page = html.Main(
 	children=[
 		title, 
@@ -51,5 +60,7 @@ page = html.Main(
 		embedding_similarity_interactive,
 		embedding_depth_section,
 		embeddings_plot_interactive,
+		introduction_to_autoregression,
+		autoregressive_interactive,
 	]
 )

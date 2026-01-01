@@ -6,13 +6,16 @@ set_seed(0)
 
 model_name = "openai-community/gpt2"
 
-tokenizer = AutoTokenizer.from_pretrained(model_name)
-model = AutoModelForCausalLM.from_pretrained(model_name)
+class GPT2Model:
+	tokenizer = AutoTokenizer.from_pretrained(model_name)
+	model = AutoModelForCausalLM.from_pretrained(model_name)
 
-inputs = tokenizer("The capital of France is", return_tensors="pt")
-outputs = model(**inputs)
+	@classmethod
+	def complete(cls, prompt):
+		inputs = cls.tokenizer(prompt, return_tensors="pt", output_attentions=True)
 
-last_token = outputs.logits
-predictions = softmax(last_token, dim=-1)
-
-predicted_tokens = tokenizer.decode(predictions.argmax(dim=-1)[0])
+		with torch.no_grad():
+			outputs = cls.model(**inputs)
+		
+		breakpoint()
+		return completed
