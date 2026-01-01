@@ -1,6 +1,7 @@
 from dash import Dash, html, dcc, callback, Output, Input
 import plotly.express as px
 import numpy as np
+import os
 
 from src.pages.visualizing_llm import page as visualizing_llm_page
 
@@ -19,4 +20,5 @@ app.layout = html.Div(
 )
 
 if __name__ == "__main__":
-	app.run(debug=True)
+	port = int(os.environ.get("PORT", 10000))
+	app.run(host="0.0.0.0", port=port)
